@@ -1,5 +1,5 @@
-import WhatsAppClone from '../whatsapp-clone'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
-  return <WhatsAppClone />
+  redirect('/whatsapp')
 }
