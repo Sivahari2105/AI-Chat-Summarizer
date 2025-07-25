@@ -14,17 +14,29 @@ class SocketService {
   connect(userId: string): Socket {
     if (!this.socket) {
       this.socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3001', {
-        auth: {
-          userId
-        }
+        transports: ['websocket', 'polling'],
+        timeout: 20000,
+        forceNew: true
       })
 
       this.socket.on('connect', () => {
         console.log('Connected to socket server')
+        // Authenticate user after connection
+        if (this.socket) {
+          this.socket.emit('authenticate', userId)
+        }
+      })
+
+      this.socket.on('auth_error', (error) => {
+        console.error('Authentication error:', error)
       })
 
       this.socket.on('disconnect', () => {
         console.log('Disconnected from socket server')
+      })
+
+      this.socket.on('connect_error', (error) => {
+        console.error('Connection error:', error)
       })
     }
 

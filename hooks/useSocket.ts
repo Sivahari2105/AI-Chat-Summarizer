@@ -10,8 +10,12 @@ export const useSocket = (userId: string | null) => {
       const socketService = SocketService.getInstance()
       socketRef.current = socketService.connect(userId)
 
+      // Set up cleanup on component unmount
       return () => {
-        socketService.disconnect()
+        if (socketRef.current) {
+          socketService.disconnect()
+          socketRef.current = null
+        }
       }
     }
   }, [userId])

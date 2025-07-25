@@ -15,6 +15,7 @@ import { SummaryDisplay } from '@/components/chat/summary-display'
 import { useSocket } from '@/hooks/useSocket'
 import { Chat, Message, SummChannel, ChatListItem, TypingUser } from '@/types/chat'
 import { formatChatTime, generateId } from '@/lib/utils'
+import { supabase, chatService } from '@/lib/supabase-client'
 
 // Mock current user
 const CURRENT_USER_ID = 'user-1'
